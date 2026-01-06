@@ -1,0 +1,20 @@
+// XCTHitchMetric
+
+func testScrollingAnimationPerformance() throws {
+    // Custom performance test measure options.
+    let measureOptions = XCTMeasureOptions()
+    measureOptions.invocationOptions = .manuallyStop
+
+    // App being tested.
+    let app = XCUIApplication()
+
+    // Launch app and get reference to scroll view.
+    app.launch()
+    let scrollView = app.scrollViews.firstMatch
+
+    measure(metrics: [XCTHitchMetric(application: app)], options: measureOptions) {
+        scrollView.swipeUp(velocity: .fast)
+        stopMeasuring()
+        scrollView.swipeDown(velocity: .fast)
+    }
+}
